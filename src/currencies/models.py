@@ -11,3 +11,6 @@ class Currency(BaseModel, BaseMeta):
     name: Mapped[str] = mapped_column(String, nullable=True)
     code: Mapped[str] = mapped_column(String, primary_key=True)
     rates: Mapped[JSON] = mapped_column(JSON)
+
+    def __str__(self):
+        return "{} {} {}".format(self.name, self.code, self.rates)
