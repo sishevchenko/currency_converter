@@ -14,3 +14,5 @@ Stages:
 3. Creating and configuring API:
     - Using FastAPI, create an API with two endpoints: one for getting current exchange rates, the other for converting between currencies.
     - Set up interaction with the database using SQLAlchemy.
+
+To fill and update the database, I used the API https://www.exchangerate-api.com/
