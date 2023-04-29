@@ -1,14 +1,10 @@
-import asyncio
 import aiohttp
 
-from fastapi import Depends
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config import API_KEY
 from src.currencies.models import Currency
-from src.db import get_async_session, engine
+from src.db import engine
 
 
 async def create_or_update_currency_info(api_key: str, code_name: list) -> dict:
