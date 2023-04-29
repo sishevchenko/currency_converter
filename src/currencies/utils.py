@@ -1,4 +1,6 @@
 import aiohttp
+import logging
+from datetime import datetime
 
 from sqlalchemy.dialects.postgresql import insert
 
@@ -26,6 +28,8 @@ async def create_or_update_currency_info(api_key: str, code_name: list) -> dict:
 
 
 async def start_create_or_update_currencies_info(api_key=API_KEY):
+    logging.basicConfig(level=logging.INFO, filename="info_log.log", filemode="a")
+    logging.info(f"DataBase update started at {datetime.utcnow()}")
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/codes"
     async with aiohttp.ClientSession() as connection:
         async with connection.get(url=url) as response:

@@ -1,4 +1,7 @@
 import asyncio
+import logging
+from datetime import datetime
+
 from fastapi import FastAPI
 
 from src.currencies.router import router as currencies_router
@@ -11,10 +14,14 @@ app = FastAPI(
 app.include_router(currencies_router)
 
 
-@app.on_event("startup")
-async def on_startup():
-    loop = asyncio.get_running_loop()
-    print("Start coroutine start_create_or_update_currencies_info")
-    await loop.create_task(start_create_or_update_currencies_info())
-    print("End coroutine start_create_or_update_currencies_info")
-    # await asyncio.sleep(43200)  # 12 hours
+async def start():
+    while True:
+        await start_create_or_update_currencies_info()
+        await asyncio.sleep(43200)  # 12 hours
+
+
+logging.basicConfig(level=logging.INFO, filename="info_log.log", filemode="a")
+logging.info(f"Project started at {datetime.utcnow()}\n{'-' * 100}")
+
+loop = asyncio.get_running_loop()
+loop.create_task(start())
