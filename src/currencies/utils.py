@@ -21,16 +21,13 @@ async def create_or_update_currency_info(api_key: str, code_name: list) -> dict:
                 response = await response.json()
                 if response["result"] == "success":
                     conversion_rates = response["conversion_rates"]
-                    # stmt = insert(Currency).values(name=name, code=code, rates=conversion_rates)
-                    # print(stmt)
-                    # on_conflict_do_update_stmt = stmt.on_conflict_do_update(set_={"name": name, "rates": conversion_rates})
-                    # print(on_conflict_do_update_stmt)
-                    sql = text(f"""INSERT INTO currency (name, code, rates)
-                    VALUES {name}, {code}, {conversion_rates}
-                    ON CONFLICT (code) DO UPDATE
-                    SET name = excluded.name,
-                    rates = excluded.rates;""")
-                    await session.execute(sql)
+                    stmt = insert(Currency).values(name=name, code=code, rates=conversion_rates)
+                    print(stmt)
+                    on_conflict_do_update_stmt = stmt.on_conflict_do_update(
+                        index_elements=["code"],
+                        set_=dict(name=name, rates=conversion_rates))
+                    print(on_conflict_do_update_stmt)
+                    await session.execute(on_conflict_do_update_stmt)
                     await session.commit()
                     return conversion_rates
 
