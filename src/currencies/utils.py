@@ -3,7 +3,6 @@ import asyncio
 import logging
 
 import aiohttp
-
 from sqlalchemy.dialects.postgresql import insert
 
 from src.config import API_KEY

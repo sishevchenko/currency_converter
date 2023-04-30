@@ -2,7 +2,9 @@ from decimal import Decimal
 
 from fastapi import APIRouter, Depends
 from fastapi.exceptions import HTTPException
+
 from sqlalchemy import select
+from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.currencies.models import Currency
@@ -18,8 +20,8 @@ router = APIRouter(
 async def get_all_currency(session: AsyncSession = Depends(get_async_session)):
     try:
         query = select(Currency)
-        res = await session.execute(query)
-        return res.scalars().all()
+        currencies = await session.execute(query)
+        return currencies.scalars().all()
     except Exception as ex:
         raise HTTPException(status_code=200, detail={
             "status": "error",
@@ -36,9 +38,14 @@ async def get_convert(base_code: str, target_code: str, quantity: Decimal,
         target_code = target_code.upper()
         query = select(Currency).where(Currency.code == base_code)
         currency = await session.execute(query)
-        currency = currency.scalars().all()
-        rates = Decimal(currency[0].rates[target_code])
-        return {f"{quantity} {base_code} to {target_code}": quantity * rates}
+        try:
+            currency = currency.scalars().one()
+            rates = Decimal(currency.rates[target_code])
+            return {f"{quantity} {base_code} to {target_code}": quantity * rates}
+        except KeyError as ex:
+            return dict(target_code="Unsupported")
+        except NoResultFound as ex:
+            return dict(base_code="Not found")
     except Exception as ex:
         raise HTTPException(status_code=200, detail={
             "status": "error",
