@@ -3,14 +3,17 @@ import asyncio
 import logging
 
 import aiohttp
+from fastapi import Depends
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config import API_KEY
 from src.currencies.models import Currency
-from src.db import engine
+from src.db import get_async_session
 
 
-async def on_conflict_do_update_currency(api_key: str, code_name: list) -> None:
+async def on_conflict_do_update_currency(api_key: str, code_name: list,
+                                         session: AsyncSession = Depends(get_async_session)) -> None:
     """this func receives a currency code and its decryption as input and requests the API for the current
     exchange rate of the requested currency, after which it writes the received data to the database """
 
@@ -21,13 +24,12 @@ async def on_conflict_do_update_currency(api_key: str, code_name: list) -> None:
             response = await response.json()
             if response["result"] == "success":
                 conversion_rates = response["conversion_rates"]
-                async with engine.begin() as session:
-                    stmt = insert(Currency).values(name=name, code=code, rates=conversion_rates)
-                    on_conflict_do_update_stmt = stmt.on_conflict_do_update(
-                        index_elements=["code", "id"],
-                        set_=dict(name=name, rates=conversion_rates))
-                    await session.execute(on_conflict_do_update_stmt)
-                    await session.commit()
+                stmt = insert(Currency).values(name=name, code=code, rates=conversion_rates)
+                on_conflict_do_update_stmt = stmt.on_conflict_do_update(
+                    index_elements=["code", "id"],
+                    set_=dict(name=name, rates=conversion_rates))
+                await session.execute(on_conflict_do_update_stmt)
+                await session.commit()
 
 
 async def start_create_or_update_currencies(api_key=API_KEY) -> None:
