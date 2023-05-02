@@ -17,11 +17,26 @@ router = APIRouter(
 
 
 @router.get("/all")
-async def get_all_currencies(session: AsyncSession = Depends(get_async_session)):
+async def get_all_currencies_rates(session: AsyncSession = Depends(get_async_session)):
     try:
-        query = select(Currency)
+        query = select(Currency.code, Currency.rates)
         currencies = await session.execute(query)
-        return currencies.scalars().all()
+        return currencies.__dict__["iterator"]
+    except Exception as ex:
+        raise HTTPException(status_code=200, detail={
+            "status": "error",
+            "data": None,
+            "details": ex
+        })
+
+
+@router.get("/supported")
+async def get_all_supported_currency(session: AsyncSession = Depends(get_async_session)):
+    try:
+        query = select(Currency.code, Currency.name)
+        supported = await session.execute(query)
+        supported = dict(supported.__dict__["iterator"])
+        return {"total": len(supported), "supported": supported}
     except Exception as ex:
         raise HTTPException(status_code=200, detail={
             "status": "error",
@@ -31,7 +46,7 @@ async def get_all_currencies(session: AsyncSession = Depends(get_async_session))
 
 
 @router.get("/{target_code}")
-async def get_currency(target_code: str, session: AsyncSession = Depends(get_async_session)):
+async def get_currency_rates(target_code: str, session: AsyncSession = Depends(get_async_session)):
     try:
         target_code = target_code.upper()
         query = select(Currency).where(Currency.code == target_code)
