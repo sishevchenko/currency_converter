@@ -2,10 +2,9 @@ from sqlalchemy import String, JSON
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.db import BaseMeta
-from src.models import BaseModel
 
 
-class Currency(BaseModel, BaseMeta):
+class Currency(BaseMeta):
     __tablename__ = "currency"
 
     name: Mapped[str] = mapped_column(String, nullable=True)

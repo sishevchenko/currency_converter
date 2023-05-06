@@ -3,9 +3,7 @@ import asyncio
 import logging
 
 import aiohttp
-from fastapi import Depends
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config import API_KEY
 from src.currencies.models import Currency
@@ -26,7 +24,7 @@ async def on_conflict_do_update_currency(api_key: str, code_name: list) -> None:
                 async with engine.begin() as session:
                     stmt = insert(Currency).values(name=name, code=code, rates=conversion_rates)
                     on_conflict_do_update_stmt = stmt.on_conflict_do_update(
-                        index_elements=["code", "id"],
+                        index_elements=["code"],
                         set_=dict(name=name, rates=conversion_rates))
                     await session.execute(on_conflict_do_update_stmt)
                     await session.commit()
@@ -37,8 +35,6 @@ async def start_create_or_update_currencies(api_key=API_KEY) -> None:
     receives a list of available codes from the API and calls the on_conflict_do_update_currency func,
     passing it an api_key and a code from the list of available """
 
-    logging.basicConfig(level=logging.INFO, filename="info_log.log", filemode="a")
-    logging.info(f"DataBase update started at {datetime.utcnow()}")
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/codes"
     async with aiohttp.ClientSession() as connection:
         async with connection.get(url=url) as response:
@@ -54,5 +50,8 @@ async def start_auto_update_db() -> None:
     start_create_or_update_currencies and slowing down until the next call in the event_loop """
 
     while True:
+        logging.basicConfig(level=logging.INFO, filename="info_log.log", filemode="a")
+        logging.info(f"DataBase update started at {datetime.utcnow()}")
         await start_create_or_update_currencies()
+        logging.info(f"DataBase update end at {datetime.utcnow()}")
         await asyncio.sleep(43200)  # 12 hours

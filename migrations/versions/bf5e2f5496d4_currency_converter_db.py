@@ -21,8 +21,7 @@ def upgrade() -> None:
                     sa.Column('name', sa.String(), nullable=True),
                     sa.Column('code', sa.String(), nullable=False),
                     sa.Column('rates', sa.JSON(), nullable=False),
-                    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-                    sa.PrimaryKeyConstraint('code', 'id')
+                    sa.PrimaryKeyConstraint('code')
                     )
     # ### end Alembic commands ###
 
