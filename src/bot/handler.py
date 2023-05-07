@@ -9,7 +9,7 @@ from src.currencies.models import Currency
 from src.db import async_session_maker
 
 
-async def process_start_command(message: Message):
+async def get_start_bot(message: Message):
     await message.answer("Привет! Я - бот конвертор валют!\n"
                          "Я умею:\n"
                          "  - Конвертировать одну валюту в другую\n"
@@ -18,7 +18,7 @@ async def process_start_command(message: Message):
                          "  - и еще немножко ;)")
 
 
-async def process_help_command(message: Message):
+async def get_help_bot(message: Message):
     await message.answer("Я умею:\n"
                          "  - Конвертировать одну валюту в другую\n"
                          "  - Показывать все поддерживаемые валюты для конвертации\n"
@@ -26,7 +26,7 @@ async def process_help_command(message: Message):
                          "  - и еще немножко ;)\n")
 
 
-async def get_conversion(message: Message):
+async def get_conversion_bot(message: Message):
     try:
         base_code = message.text.split()[-3].upper()
         target_code = message.text.split()[-2].upper()
@@ -46,7 +46,7 @@ async def get_conversion(message: Message):
         await message.answer(str(ex))
 
 
-async def get_currency_rates(message: Message):
+async def get_currency_rates_bot(message: Message):
     try:
         target_code = message.text.split()[-1].upper()
         async with async_session_maker() as session:
@@ -60,10 +60,10 @@ async def get_currency_rates(message: Message):
         except NoResultFound as ex:
             return {target_code: "Not found"}
     except Exception as ex:
-        await message.answer(str(ex))
+        await message.answer("Ой, что-то пошло не так :(")
 
 
-async def get_all_supported_currency(message: Message):
+async def get_all_supported_currency_bot(message: Message):
     try:
         async with async_session_maker() as session:
             query = select(Currency.code, Currency.name)
@@ -74,7 +74,7 @@ async def get_all_supported_currency(message: Message):
         await message.answer(str(ex))
 
 
-async def send_echo(message: Message):
+async def send_echo_bot(message: Message):
     try:
         await message.send_copy(chat_id=message.chat.id)
     except TypeError:
