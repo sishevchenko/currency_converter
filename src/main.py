@@ -12,7 +12,9 @@ from src.bot.dispatcher import start_bot
 
 
 app = FastAPI(
-    title="Currency Converter"
+    title="Currency Converter",
+    debug=DEBUG,
+    version="1.0.0"
 )
 
 app.include_router(currencies_router)
