@@ -1,10 +1,12 @@
 from decimal import Decimal
 
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 
+from src.bot.state_machine import StateConversion, StateRates
 from src.currencies.models import Currency
 from src.db import async_session_maker
 
@@ -42,7 +44,13 @@ async def get_help_handler(message: Message):
                          "    --> /covert код_валюты_1 код_валюты_2 колличество_валюты_1\n")
 
 
-async def get_conversion_handler(message: Message):
+async def set_conversion_state(message: Message, state: FSMContext):
+    await state.set_state(StateConversion.SET_BASE_TARGET_QUANTITY)
+    await message.answer("Введите:\n"
+                         "код_валюты_1 код_валюты_2 колличество_валюты_1")
+
+
+async def get_conversion_handler(message: Message, state: FSMContext):
     try:
         base_code = message.text.split()[-3].upper()
         target_code = message.text.split()[-2].upper()
@@ -60,9 +68,17 @@ async def get_conversion_handler(message: Message):
                 await message.answer(f"{base_code}: Not found\n/supported")
     except Exception as ex:
         await message.answer("Ой, что-то пошло не так :(\n/help")
+    finally:
+        await state.clear()
 
 
-async def get_currency_rates_handler(message: Message):
+async def set_rates_state(message: Message, state: FSMContext):
+    await state.set_state(StateRates.SET_TARGET)
+    await message.answer("Введите:\n"
+                         "код_валюты")
+
+
+async def get_currency_rates_handler(message: Message, state: FSMContext):
     try:
         target_code = message.text.split()[-1].upper()
         async with async_session_maker() as session:
@@ -77,6 +93,8 @@ async def get_currency_rates_handler(message: Message):
             return {target_code: "Not found\n/supported"}
     except Exception as ex:
         await message.answer("Ой, что-то пошло не так :(\n/help")
+    finally:
+        await state.clear()
 
 
 async def get_all_supported_currency_handler(message: Message):
