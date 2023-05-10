@@ -6,48 +6,23 @@ from aiogram.types import Message
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 
+from src.bot.localization import language
 from src.bot.state_machine import StateConversion, StateRates
 from src.currencies.models import Currency
 from src.db import async_session_maker
 
 
 async def get_start_handler(message: Message):
-    await message.answer("Привет! Я - бот конвертор валют!\n"
-                         "Я умею:\n"
-                         "  - Конвертировать одну валюту в другую\n"
-                         "  - Показывать все поддерживаемые для конвертации валюты\n"
-                         "  - Показывать отношения указанной валюты к поддерживаемым\n"
-                         "  - и еще немножко ;)\n\n"
-                         "Инструкция:\n"
-                         "- Для полученя списка поддерживаемых валют в формате \"код_валюты назание_валюты\"\n"
-                         "    --> /supported"
-                         "- Для полученя соотношения указанной валюты к поддерживаемым\n"
-                         "    --> /rates код_валюты\n"
-                         "- Для конвертации одной валюты в другую\n"
-                         "    --> /covert код_валюты_1 код_валюты_2 колличество_валюты_1\n"
-                         "- Для получения информации по использованию\n"
-                         "    --> /help")
+    await message.answer(language["start"]["ru" if message.from_user.language_code == "ru" else "en"])
 
 
 async def get_help_handler(message: Message):
-    await message.answer("Я умею:\n"
-                         "  - Конвертировать одну валюту в другую\n"
-                         "  - Показывать все поддерживаемые для конвертации валюты\n"
-                         "  - Показывать отношения указанной валюты к поддерживаемым\n"
-                         "  - и еще немножко ;)\n\n"
-                         "Инструкция:\n"
-                         "- Для полученя списка поддерживаемых валют в формате \"код_валюты назание_валюты\"\n"
-                         "    --> /supported"
-                         "- Для полученя соотношения указанной валюты к поддерживаемым\n"
-                         "    --> /rates код_валюты\n"
-                         "- Для конвертации одной валюты в другую\n"
-                         "    --> /covert код_валюты_1 код_валюты_2 колличество_валюты_1\n")
+    await message.answer(language["help"]["ru" if message.from_user.language_code == "ru" else "en"])
 
 
 async def set_conversion_state(message: Message, state: FSMContext):
     await state.set_state(StateConversion.SET_BASE_TARGET_QUANTITY)
-    await message.answer("Введите:\n"
-                         "код_валюты_1 код_валюты_2 колличество_валюты_1")
+    await message.answer(language["conversion_state"]["ru" if message.from_user.language_code == "ru" else "en"])
 
 
 async def get_conversion_handler(message: Message, state: FSMContext):
@@ -74,8 +49,7 @@ async def get_conversion_handler(message: Message, state: FSMContext):
 
 async def set_rates_state(message: Message, state: FSMContext):
     await state.set_state(StateRates.SET_TARGET)
-    await message.answer("Введите:\n"
-                         "код_валюты")
+    await message.answer(language["rates_state"]["ru" if message.from_user.language_code == "ru" else "en"])
 
 
 async def get_currency_rates_handler(message: Message, state: FSMContext):
