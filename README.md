@@ -29,23 +29,23 @@ Telegram: @s_i_shevchenko
 ## STARTING AND OPERATION
 ### Preparatory stage
 - To run the project, you need to install Python (3.11 is desirable)
-- Through the terminal in the project folder, configure the virtual environment with the command python -m venv venv
-- Enter the command pip install -r src/requirements/prod.txt to download the required libraries
-- In the .env file, specify the parameters of the database and connection to the API https://www.exchangerate-api.com/
-- Next, to configure the necessary tables in the database, enter the command alembic revision --autogenerate -m "YOUR-DB-NAME"
-- Apply alembic migrations with alembic upgrade head command
-- Check the correct operation by entering the command from the main directory of the uvicorn project src.main:app
-- After a successful run in test mode, go to src/config.py and change the changed DEBUG = False
+- Through the terminal in the project folder, configure the virtual environment with the command `python -m venv venv`
+- Enter the command `pip install -r src/requirements/prod.txt` to download the required libraries
+- In the `.env` file, specify the parameters of the database and connection to the API https://www.exchangerate-api.com/
+- Next, to configure the necessary tables in the database, enter the command `alembic revision --autogenerate -m "YOUR-DB-NAME"`
+- Apply alembic migrations with `alembic upgrade head` command
+- Check the correct operation by entering the command from the main project directory `uvicorn src.main:app`
+- After a successful run in test mode, go to `src/config.py` and change the changed `DEBUG = False`
 - Run the project with the uvicorn src.main:app command
 - Wait some time for database update
 
 ### Working with API
-- To get all currencies available for conversion: BASE-URL/currency/supported  
-- To get all currency codes with conversion rate: BASE-URL/currency/all  
-- To get conversion rates for a specific currency: BASE-URL/currency/YOUR-CURRENCY # currency/usd (case insensitive)  
+- To get all currencies available for conversion: `BASE-URL/currency/supported`  
+- To get all currency codes with conversion rate: `BASE-URL/currency/all`  
+- To get conversion rates for a specific currency: `BASE-URL/currency/YOUR-CURRENCY` # for example `currency/usd` (case insensitive)  
 - To get the result of converting one currency to another:  
-    - BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY  
-    - BASE-URL/currency/convert/usd/aED/100 (case insensitive)  
+    - `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`  
+    - `BASE-URL/currency/convert/usd/aED/100` (case insensitive)  
 
 
 ## ЗАПУСК И РАБОТА
@@ -62,9 +62,9 @@ Telegram: @s_i_shevchenko
 - Подождать некоторое врямя для обновления базы данных
 
 ### Работа с API
-- Для получения всех доступных для конвертации валют: BASE-URL/currency/supported
-- Для получения всех кодов валют с коэфицентом конвертации: BASE-URL/currency/all
-- Для полученяи коэфицентов конвертации конкретной валюты: BASE-URL/currency/YOUR-CURRENCY  #  currency/usd (регистр не имеет значения)
+- Для получения всех доступных для конвертации валют: `BASE-URL/currency/supported`
+- Для получения всех кодов валют с коэфицентом конвертации: `BASE-URL/currency/all`
+- Для полученяи коэфицентов конвертации конкретной валюты: `BASE-URL/currency/YOUR-CURRENCY`  # например `currency/usd` (регистр не имеет значения)
 - Для получения результата конвертации одной валюты в другую:
-    - BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY
-    - BASE-URL/currency/convert/usd/aED/100 (регистр не имеет значения)
+    - `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`
+    - `BASE-URL/currency/convert/usd/aED/100` (регистр не имеет значения)
