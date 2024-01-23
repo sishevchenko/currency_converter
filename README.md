@@ -40,12 +40,20 @@ Telegram: @s_i_shevchenko
 - Wait some time for database update
 
 ### Working with API
-- To get all currencies available for conversion: `BASE-URL/currency/supported`  
-- To get all currency codes with conversion rate: `BASE-URL/currency/all`  
-- To get conversion rates for a specific currency: `BASE-URL/currency/YOUR-CURRENCY` # for example `currency/usd` (case insensitive)  
+- To get all currencies available for conversion:
+> [!NOTE]
+> `BASE-URL/currency/supported`  
+- To get all currency codes with conversion rate:
+> [!NOTE]
+> `BASE-URL/currency/all`  
+- To get conversion rates for a specific currency:
+> [!NOTE]
+> `BASE-URL/currency/YOUR-CURRENCY`
+> For example `currency/usd` (case insensitive)  
 - To get the result of converting one currency to another:  
-    - `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`  
-    - `BASE-URL/currency/convert/usd/aED/100` (case insensitive)  
+> [!NOTE]
+> `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`
+> `BASE-URL/currency/convert/usd/aED/100` (case insensitive)  
 
 
 ## ЗАПУСК И РАБОТА
@@ -62,9 +70,17 @@ Telegram: @s_i_shevchenko
 - Подождать некоторое врямя для обновления базы данных
 
 ### Работа с API
-- Для получения всех доступных для конвертации валют: `BASE-URL/currency/supported`
-- Для получения всех кодов валют с коэфицентом конвертации: `BASE-URL/currency/all`
-- Для полученяи коэфицентов конвертации конкретной валюты: `BASE-URL/currency/YOUR-CURRENCY`  # например `currency/usd` (регистр не имеет значения)
+- Для получения всех доступных для конвертации валют:
+> [!NOTE]
+> `BASE-URL/currency/supported`
+- Для получения всех кодов валют с коэфицентом конвертации:
+> [!NOTE]
+> `BASE-URL/currency/all`
+- Для полученяи коэфицентов конвертации конкретной валюты:
+> [!NOTE]
+> `BASE-URL/currency/YOUR-CURRENCY`  
+> Например `currency/usd` (регистр не имеет значения)
 - Для получения результата конвертации одной валюты в другую:
-    - `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`
-    - `BASE-URL/currency/convert/usd/aED/100` (регистр не имеет значения)
+> [!NOTE]
+> `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`
+> `BASE-URL/currency/convert/usd/aED/100` (регистр не имеет значения)
