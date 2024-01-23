@@ -35,7 +35,7 @@ Telegram: @s_i_shevchenko
 - Next, to configure the necessary tables in the database, enter the command `alembic revision --autogenerate -m "YOUR-DB-NAME"`  
 - Apply alembic migrations with `alembic upgrade head` command  
 - Check the correct operation by entering the command from the main project directory `uvicorn src.main:app`  
-- After a successful run in test mode, go to `src/config.py` and change the changed `DEBUG = False`  
+- After a successful run in test mode, go to `src/config.py` and change the variable `DEBUG = False`  
 - Run the project with the uvicorn src.main:app command  
 - Wait some time for database update  
 
@@ -59,15 +59,15 @@ Telegram: @s_i_shevchenko
 ## ЗАПУСК И РАБОТА
 ### Подготовительный этап
 - Для запуска проекта нелбходимо установить Python (3.11 желательно)
-- Через терминал в папке проекта настроить вертуальное окружение командой `python -m venv venv`
+- Через терминал в папке проекта настроить виртуальное окружение командой `python -m venv venv`
 - Ввести команду `pip install -r src/requirements/prod.txt` для загрузки необходимых библиотек
 - В файлу `.env` прописать параметры базы данных и подключения к API https://www.exchangerate-api.com/
 - Далее для настройки необходимых таблиц в базе ввести команду `alembic revision --autogenerate -m "YOUR-DB-NAME"`
 - Применить миграции alembic командой `alembic upgrade head`
 - Проверить правильность работы введя команду из основной директории проекта `uvicorn src.main:app`
-- После успешного запуска в тестовом режиме зайти в `src/config.py` и изменить переиенную `DEBUG = False`
+- После успешного запуска в тестовом режиме зайти в `src/config.py` и изменить переменную `DEBUG = False`
 - Запустить проект командой uvicorn `src.main:app`
-- Подождать некоторое врямя для обновления базы данных
+- Подождать некоторое время для обновления базы данных
 
 ### Работа с API
 - Для получения всех доступных для конвертации валют:  
