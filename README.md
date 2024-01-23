@@ -5,7 +5,7 @@ Telegram: @s_i_shevchenko
 ***
 
 # Currency Converter
-> [!NOTE]
+> [!NOTE]  
 > The goal of the project is to develop an API for currency conversion using FastAPI and SQLAlchemy.  
 > The API should provide the ability to get up-to-date exchange rates and convert between them.  
 
@@ -22,37 +22,37 @@ Telegram: @s_i_shevchenko
 - Using FastAPI, create an API with two endpoints: one for getting current exchange rates, the other for converting between currencies.  
 - Set up interaction with the database using SQLAlchemy.  
 
-> [!TIP]
+> [!TIP]  
 > To fill and update the database, I used the API https://www.exchangerate-api.com/  
 
 
 ## STARTING AND OPERATION
 ### Preparatory stage
-- To run the project, you need to install Python (3.11 is desirable)
-- Through the terminal in the project folder, configure the virtual environment with the command `python -m venv venv`
-- Enter the command `pip install -r src/requirements/prod.txt` to download the required libraries
-- In the `.env` file, specify the parameters of the database and connection to the API https://www.exchangerate-api.com/
-- Next, to configure the necessary tables in the database, enter the command `alembic revision --autogenerate -m "YOUR-DB-NAME"`
-- Apply alembic migrations with `alembic upgrade head` command
-- Check the correct operation by entering the command from the main project directory `uvicorn src.main:app`
-- After a successful run in test mode, go to `src/config.py` and change the changed `DEBUG = False`
-- Run the project with the uvicorn src.main:app command
-- Wait some time for database update
+- To run the project, you need to install Python (3.11 is desirable)  
+- Through the terminal in the project folder, configure the virtual environment with the command `python -m venv venv`  
+- Enter the command `pip install -r src/requirements/prod.txt` to download the required libraries  
+- In the `.env` file, specify the parameters of the database and connection to the API https://www.exchangerate-api.com/  
+- Next, to configure the necessary tables in the database, enter the command `alembic revision --autogenerate -m "YOUR-DB-NAME"`  
+- Apply alembic migrations with `alembic upgrade head` command  
+- Check the correct operation by entering the command from the main project directory `uvicorn src.main:app`  
+- After a successful run in test mode, go to `src/config.py` and change the changed `DEBUG = False`  
+- Run the project with the uvicorn src.main:app command  
+- Wait some time for database update  
 
 ### Working with API
-- To get all currencies available for conversion:
-> [!NOTE]
+- To get all currencies available for conversion:  
+> [!NOTE]  
 > `BASE-URL/currency/supported`  
-- To get all currency codes with conversion rate:
-> [!NOTE]
+- To get all currency codes with conversion rate:  
+> [!NOTE]  
 > `BASE-URL/currency/all`  
-- To get conversion rates for a specific currency:
-> [!NOTE]
-> `BASE-URL/currency/YOUR-CURRENCY`
+- To get conversion rates for a specific currency:  
+> [!NOTE]  
+> `BASE-URL/currency/YOUR-CURRENCY`  
 > For example `currency/usd` (case insensitive)  
 - To get the result of converting one currency to another:  
-> [!NOTE]
-> `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`
+> [!NOTE]  
+> `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`  
 > `BASE-URL/currency/convert/usd/aED/100` (case insensitive)  
 
 
@@ -70,17 +70,17 @@ Telegram: @s_i_shevchenko
 - Подождать некоторое врямя для обновления базы данных
 
 ### Работа с API
-- Для получения всех доступных для конвертации валют:
-> [!NOTE]
-> `BASE-URL/currency/supported`
-- Для получения всех кодов валют с коэфицентом конвертации:
-> [!NOTE]
-> `BASE-URL/currency/all`
-- Для полученяи коэфицентов конвертации конкретной валюты:
-> [!NOTE]
+- Для получения всех доступных для конвертации валют:  
+> [!NOTE]  
+> `BASE-URL/currency/supported`  
+- Для получения всех кодов валют с коэфицентом конвертации:  
+> [!NOTE]  
+> `BASE-URL/currency/all`  
+- Для полученяи коэфицентов конвертации конкретной валюты:  
+> [!NOTE]  
 > `BASE-URL/currency/YOUR-CURRENCY`  
-> Например `currency/usd` (регистр не имеет значения)
-- Для получения результата конвертации одной валюты в другую:
-> [!NOTE]
-> `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`
-> `BASE-URL/currency/convert/usd/aED/100` (регистр не имеет значения)
+> Например `currency/usd` (регистр не имеет значения)  
+- Для получения результата конвертации одной валюты в другую:  
+> [!NOTE]  
+> `BASE-URL/currency/convert/BASE-CURRENCY/TARGET-CURRENCY/QUANTITY`  
+> `BASE-URL/currency/convert/usd/aED/100` (регистр не имеет значения)  
