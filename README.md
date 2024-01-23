@@ -23,7 +23,7 @@ Telegram: @s_i_shevchenko
 - Set up interaction with the database using SQLAlchemy.  
 
 > [!TIP]
-> To fill and update the database, I used the API `https://www.exchangerate-api.com/`  
+> To fill and update the database, I used the API https://www.exchangerate-api.com/  
 
 
 ## STARTING AND OPERATION
